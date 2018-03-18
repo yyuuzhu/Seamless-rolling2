@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>大图滚动</title>
+	<link rel="stylesheet" href="reset.css" />
+	<style>
+		#wrap{
+			width: 200px;
+			height: 200px;
+			border: 1px solid red;
+			overflow: hidden;
+			margin: 0 auto;
+			position: relative;
+		}
+		ul{
+			width: 1000px;
+			height: 200px;
+			position: absolute;
+		}
+		ul::after{
+			content: "";
+			display: block;
+			clear: both;
+		}
+		li{
+			width: 200px;
+			height: 200px;
+			background: red;
+			float: left;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<ul>
+			<li style="background:url(img/3.jpg)">第三张</li>
+			<li style="background:url(img/1.jpg)">第一张</li>
+			<li style="background:url(img/2.jpg)">第二张</li>
+			<li style="background:url(img/3.jpg)">第三张</li>
+			<li style="background:url(img/1.jpg)">第一张</li>
+		</ul>
+	</div>
+
+	
+	<script>
+		function getCss(obj,name){ //obj = wrap(变量)  name = 样式名（left）
+        if (obj.currentStyle) {
+            return obj.currentStyle[name];//[name]中的name为变量left
+        } else{
+            return getComputedStyle(obj)[name];
+        }
+}
+	</script>
+	<script>
+		var oUl = document.getElementsByTagName("ul")[0];
+		var wrap = document.getElementById("wrap");
+		var aLi = document.getElementsByTagName("li");
+		var width = getCss(wrap,"width");
+		width = width.replace("px","");
+
+		// 从第一张图片开始
+		init();
+		function init(){
+			oUl.style.left = -width + "px";
+			begin();//调用开始的函数
+		}
+		
+		function move(){
+			var left = getCss(oUl,"left");
+			left = left.replace("px","");
+			var timer = setInterval(function(){
+				left--;
+				oUl.style.left = left + "px";
+				if(left == -(aLi.length-1)*width){
+					oUl.style.left = -width + "px";
+					left = -width;
+				}
+				//能被left整除的时候停止计时器，让图片滚动过程中有停顿
+				if(left%width == 0){
+					clearInterval(timer);
+				}
+			},10);
+		}
+		//每隔3秒调用move()函数
+		function begin(){
+			var timer = setInterval(function(){
+				move("right");
+			},3000);
+		}
+	</script>
+</body>
+</html>
