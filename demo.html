@@ -45,12 +45,12 @@
 	
 	<script>
 		function getCss(obj,name){ //obj = wrap(变量)  name = 样式名（left）
-        if (obj.currentStyle) {
-            return obj.currentStyle[name];//[name]中的name为变量left
-        } else{
-            return getComputedStyle(obj)[name];
-        }
-}
+			if (obj.currentStyle) {
+			    return obj.currentStyle[name];//[name]中的name为变量left
+			} else{
+			    return getComputedStyle(obj)[name];
+			}
+		}
 	</script>
 	<script>
 		var oUl = document.getElementsByTagName("ul")[0];
